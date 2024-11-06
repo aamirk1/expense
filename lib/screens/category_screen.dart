@@ -1,4 +1,4 @@
-import 'package:expense/widgets/category_screen/category_list.dart';
+import 'package:expense/widgets/category_screen/category_fetcher.dart';
 import 'package:flutter/material.dart';
 
 class CategoryScreen extends StatelessWidget {
@@ -16,7 +16,7 @@ class CategoryScreen extends StatelessWidget {
         )),
         backgroundColor: Colors.blue,
       ),
-      body: const CategoryList(),
+      body: const CategoryFetcher(),
     );
   }
 }

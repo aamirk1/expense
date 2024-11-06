@@ -42,11 +42,11 @@ class DatabaseProvider with ChangeNotifier {
 
       // expense table
       await txn.execute('''CREATE TABLE $eTable(
-        id INTEGER PRIMARY KEY AUTOINCREAMENT,
-      title TEXT,
-      amount TEXT,
-      date TEXT,
-      category TEXT,
+       id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT,
+    amount TEXT,
+    date TEXT,
+    category TEXT
     )''');
 
       for (var i = 0; i < icons.length; i++) {
