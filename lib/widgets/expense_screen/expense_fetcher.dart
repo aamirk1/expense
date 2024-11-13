@@ -18,6 +18,13 @@ class _ExpenseFetcherState extends State<ExpenseFetcher> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _expenseList = _getExpenseList();
+    print(_expenseList);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return FutureBuilder(
         future: _expenseList,

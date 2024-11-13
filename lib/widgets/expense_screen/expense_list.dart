@@ -5,8 +5,8 @@ import 'package:provider/provider.dart';
 
 class ExpenseList extends StatelessWidget {
   const ExpenseList({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class ExpenseList extends StatelessWidget {
             physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics()),
             itemCount: exList.length,
-            itemBuilder: (_, i) => ExpenseCard(exp: exList[i]));
+            itemBuilder: (_, i) => ExpenseCard(exp:exList[i], ));
       },
     );
   }
