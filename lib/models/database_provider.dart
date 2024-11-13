@@ -126,6 +126,21 @@ class DatabaseProvider with ChangeNotifier {
     });
   }
 
+  Future<List<Expense>> fetchExpenses(String Category) async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      return await txn.query(eTable,
+          where: 'category == ?', whereArgs: [Category]).then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+
+        List<Expense> nList = List.generate(
+            converted.length, (index) => Expense.fromString(converted[index]));
+        _expenses = nList;
+        return _expenses;
+      });
+    });
+  }
+
   Map<String, dynamic> calculationEntriesAndAmount(String category) {
     double total = 0.0;
     var list = _expenses.where((element) => element.category == category);

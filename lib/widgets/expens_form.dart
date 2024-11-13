@@ -2,6 +2,7 @@ import 'package:expense/constants/icons.dart';
 import 'package:expense/models/database_provider.dart';
 import 'package:expense/models/expense.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class ExpenseForm extends StatefulWidget {
@@ -63,7 +64,9 @@ class _ExpenseFormState extends State<ExpenseForm> {
           Row(
             children: [
               Expanded(
-                  child: Text(date != null ? date.toString() : 'Select Date')),
+                  child: Text(date != null
+                      ? DateFormat('MMMM dd, yyyy').format(date!)
+                      : 'Select Date')),
               IconButton(
                   onPressed: () {
                     _pickDate();
@@ -96,7 +99,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
           ),
           ElevatedButton(
               onPressed: () {
-                if (title.text != '' && amount.text != '' && date != null) {
+                if (title.text != '' && amount.text != '') {
                   final file = Expense(
                     id: 0,
                     title: title.text,

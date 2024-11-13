@@ -1,5 +1,6 @@
 import 'package:expense/models/database_provider.dart';
 import 'package:expense/screens/category_screen.dart';
+import 'package:expense/screens/expense_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,14 +21,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: CategoryScreen.name,
       routes: {
-        CategoryScreen.name:(_)=> const CategoryScreen(),
+        CategoryScreen.name: (_) => const CategoryScreen(),
+        ExpenseScreen.name: (_) => const ExpenseScreen(),
       },
-      title: 'Flutter Demo',
-      // theme: ThemeData(
-      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      //   useMaterial3: true,
-      // ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      title: 'Expense App',
     );
   }
 }

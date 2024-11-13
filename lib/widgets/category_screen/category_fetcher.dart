@@ -1,5 +1,6 @@
 import 'package:expense/models/database_provider.dart';
 import 'package:expense/widgets/category_screen/category_list.dart';
+import 'package:expense/widgets/category_screen/total_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,10 +35,19 @@ class _CategoryFetcherState extends State<CategoryFetcher> {
                 child: Text(snapshot.error.toString()),
               );
             } else {
-              return Consumer<DatabaseProvider>(builder: (_, db, __) {
-                // var list = db.categories;
-                return const CategoryList();
-              });
+              // var list = db.categories;
+              return const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 250,
+                      child: TotalChart(),
+                    ),
+                    Expanded(child: CategoryList()),
+                  ],
+                ),
+              );
             }
           } else {
             return const Center(
