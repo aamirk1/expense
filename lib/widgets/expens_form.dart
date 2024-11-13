@@ -1,4 +1,8 @@
+import 'package:expense/constants/icons.dart';
+import 'package:expense/models/database_provider.dart';
+import 'package:expense/models/expense.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ExpenseForm extends StatefulWidget {
   const ExpenseForm({super.key});
@@ -8,11 +12,14 @@ class ExpenseForm extends StatefulWidget {
 }
 
 class _ExpenseFormState extends State<ExpenseForm> {
+  final title = TextEditingController();
+  final amount = TextEditingController();
+  DateTime? date;
+  String initialValue = 'Other';
   @override
   Widget build(BuildContext context) {
-    final _title = TextEditingController();
-    final _amount = TextEditingController();
-    DateTime? _date;
+    final provider = Provider.of<DatabaseProvider>(context, listen: false);
+
     _pickDate() async {
       DateTime? pickedDate = await showDatePicker(
         context: context,
@@ -22,7 +29,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
       );
       if (pickedDate != null) {
         setState(() {
-          _date = pickedDate;
+          date = pickedDate;
         });
       }
     }
@@ -35,7 +42,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
         children: [
           // title
           TextField(
-            controller: _title,
+            controller: title,
             decoration: const InputDecoration(
               label: Text('Title'),
             ),
@@ -45,7 +52,7 @@ class _ExpenseFormState extends State<ExpenseForm> {
           ), // amount
           TextField(
             keyboardType: TextInputType.number,
-            controller: _amount,
+            controller: amount,
             decoration: const InputDecoration(
               label: Text('Amount'),
             ),
@@ -56,12 +63,52 @@ class _ExpenseFormState extends State<ExpenseForm> {
           Row(
             children: [
               Expanded(
-                  child:
-                      Text(_date != null ? _date.toString() : 'Select Date')),
+                  child: Text(date != null ? date.toString() : 'Select Date')),
               IconButton(
-                  onPressed: () {}, icon: const Icon(Icons.calendar_month))
+                  onPressed: () {
+                    _pickDate();
+                  },
+                  icon: const Icon(Icons.calendar_month))
             ],
-          )
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Row(
+            children: [
+              const Expanded(child: Text('Category')),
+              Expanded(
+                  child: DropdownButton(
+                items: icons.keys
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .toList(),
+                value: initialValue,
+                onChanged: (value) {
+                  setState(() {
+                    initialValue = value.toString();
+                  });
+                },
+              ))
+            ],
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                if (title.text != '' && amount.text != '' && date != null) {
+                  final file = Expense(
+                    id: 0,
+                    title: title.text,
+                    amount: double.parse(amount.text),
+                    date: date != null ? date! : DateTime.now(),
+                    category: initialValue,
+                  );
+                  provider.addExpense(file);
+                  Navigator.of(context).pop();
+                }
+              },
+              child: const Text('Add Expense'))
         ],
       )),
     );

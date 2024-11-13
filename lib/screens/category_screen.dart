@@ -19,10 +19,17 @@ class CategoryScreen extends StatelessWidget {
       ),
       body: const CategoryFetcher(),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blueAccent,
         onPressed: () {
-          
-          showModalBottomSheet(context: context,isScrollControlled: true, builder: (_) => const ExpenseForm());
+          showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              builder: (_) => const ExpenseForm());
         },
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }
