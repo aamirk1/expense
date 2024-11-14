@@ -5,8 +5,8 @@ import 'package:intl/intl.dart';
 import '../../models/expense.dart';
 
 class ExpenseCard extends StatelessWidget {
-  const ExpenseCard({super.key, required this.exp});
-  final Expense exp;
+  const ExpenseCard({super.key, this.exp});
+  final Expense? exp;
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +17,12 @@ class ExpenseCard extends StatelessWidget {
       // },
       leading: Padding(
         padding: const EdgeInsets.all(8),
-        child: Icon(icons[exp.category]),
+        child: Icon(icons[exp!.category]),
       ),
-      title: Text(exp.title),
-      subtitle: Text(DateFormat('MMMM dd, yyyy').format(exp.date)),
+      title: Text(exp!.title),
+      subtitle: Text(DateFormat('MMMM dd, yyyy').format(exp!.date)),
       trailing: Text(NumberFormat.currency(locale: 'en_IN', symbol: '₹')
-          .format(exp.amount)),
+          .format(exp!.amount)),
     );
   }
 }

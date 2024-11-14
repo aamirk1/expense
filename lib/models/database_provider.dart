@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class DatabaseProvider with ChangeNotifier {
+class DatabaseProvider extends ChangeNotifier {
   List<ExpenseCategory> _categories = [];
   List<ExpenseCategory> get categories => _categories;
 
   List<Expense> _expenses = [];
-  List<Expense> get expenses => expenses;
+  List<Expense> get expenses => _expenses;
   Database? _database;
   Future<Database> get database async {
     // database directory
@@ -120,17 +120,26 @@ class DatabaseProvider with ChangeNotifier {
 
         _expenses.add(file);
         notifyListeners();
-        var data = calculationEntriesAndAmount(exp.category);
-        updateCategory(exp.category, data['entries'], data['totalAmount']);
+
+        var ex = findCategory(exp.category);
+        // var data = calculationEntriesAndAmount(exp.category);
+        updateCategory(
+            exp.category, ex.entries + 1, ex.totalAmount + exp.amount);
       });
     });
   }
 
-  Future<List<Expense>> fetchExpenses(String Category) async {
+  ExpenseCategory findCategory(String title) {
+    return _categories.firstWhere(
+      (element) => element.title == title,
+    );
+  }
+
+  Future<List<Expense>> fetchExpenses(String category) async {
     final db = await database;
     return await db.transaction((txn) async {
       return await txn.query(eTable,
-          where: 'category == ?', whereArgs: [Category]).then((data) {
+          where: 'category == ?', whereArgs: [category]).then((data) {
         final converted = List<Map<String, dynamic>>.from(data);
 
         List<Expense> nList = List.generate(
@@ -148,5 +157,10 @@ class DatabaseProvider with ChangeNotifier {
       total += i.amount;
     }
     return {'entries': list.length, 'totalAmount': total};
+  }
+
+  double calculateTotalExpense() {
+    return _categories.fold(
+        0.0, (previousValue, element) => previousValue + element.totalAmount);
   }
 }

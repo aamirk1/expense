@@ -17,7 +17,9 @@ class ExpenseList extends StatelessWidget {
             physics: const BouncingScrollPhysics(
                 parent: AlwaysScrollableScrollPhysics()),
             itemCount: exList.length,
-            itemBuilder: (_, i) => ExpenseCard(exp:exList[i], ));
+            itemBuilder: (_, i) => ExpenseCard(
+                  exp: exList[i],
+                ));
       },
     );
   }

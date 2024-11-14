@@ -15,11 +15,25 @@ class _TotalChartState extends State<TotalChart> {
   Widget build(BuildContext context) {
     return Consumer<DatabaseProvider>(builder: (_, db, __) {
       var list = db.categories;
+      var total = db.calculateTotalExpense();
       return Row(
         children: [
-          const Expanded(
+          Expanded(
             flex: 60,
-            child: Text('Chart'),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Total Expense: $total'),
+                const SizedBox(
+                  height: 8,
+                ),
+                ...list.map((e) => Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(e.title),
+                    )),
+              ],
+            ),
           ),
           Expanded(
             flex: 40,
