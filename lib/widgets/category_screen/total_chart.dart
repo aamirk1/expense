@@ -1,6 +1,7 @@
 import 'package:expense/models/database_provider.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class TotalChart extends StatefulWidget {
@@ -24,13 +25,42 @@ class _TotalChartState extends State<TotalChart> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Total Expense: $total'),
+                FittedBox(
+                  alignment: Alignment.center,
+                  fit: BoxFit.scaleDown,
+                  child: Text(
+                    'Total Expense: ${NumberFormat.currency(
+                      locale: 'en_IN',
+                      symbol: '₹',
+                    ).format(total)}',
+                    // ignore: deprecated_member_use
+                    textScaleFactor: 1.5,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                ),
                 const SizedBox(
                   height: 8,
                 ),
                 ...list.map((e) => Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Text(e.title),
+                      padding: const EdgeInsets.all(5),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 8.0,
+                            height: 8.0,
+                            color: Colors.primaries[list.indexOf(e)],
+                          ),
+                          const SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(e.title),
+                          const SizedBox(
+                            width: 5.0,
+                          ),
+                          Text(
+                              '${((e.totalAmount / total) * 100).toStringAsFixed(2)}%')
+                        ],
+                      ),
                     )),
               ],
             ),
