@@ -42,7 +42,7 @@ class _TotalChartState extends State<TotalChart> {
                   height: 8,
                 ),
                 ...list.map((e) => Padding(
-                      padding: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(3),
                       child: Row(
                         children: [
                           Container(

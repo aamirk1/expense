@@ -1,11 +1,12 @@
 import 'package:expense/models/database_provider.dart';
+import 'package:expense/widgets/expense_screen/expense_chart.dart';
 import 'package:expense/widgets/expense_screen/expense_list.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ExpenseFetcher extends StatefulWidget {
   const ExpenseFetcher({super.key, this.category});
-  final String ?category;
+  final String? category;
   @override
   State<ExpenseFetcher> createState() => _ExpenseFetcherState();
 }
@@ -34,9 +35,18 @@ class _ExpenseFetcherState extends State<ExpenseFetcher> {
                 child: Text(snapshot.error.toString()),
               );
             } else {
-             
-                return const ExpenseList();
-     
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 250,
+                      child: ExpenseChart(category: widget.category!),
+                    ),
+                    const Expanded(child: ExpenseList()),
+                  ],
+                ),
+              );
             }
           } else {
             return const Center(
