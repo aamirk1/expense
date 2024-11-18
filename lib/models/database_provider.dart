@@ -6,11 +6,22 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 class DatabaseProvider extends ChangeNotifier {
+  String _searchText = '';
+  String get searchText => _searchText;
+  set searchText(String value) {
+    _searchText = value;
+    notifyListeners();
+  }
+
   List<ExpenseCategory> _categories = [];
   List<ExpenseCategory> get categories => _categories;
 
   List<Expense> _expenses = [];
-  List<Expense> get expenses => _expenses;
+  List<Expense> get expenses  {
+
+    return _searchText != '' ? _expenses.where((element) => element.title.toLowerCase().contains(_searchText.toLowerCase())).toList() : _expenses;
+
+  }
   Database? _database;
   Future<Database> get database async {
     // database directory
@@ -145,6 +156,20 @@ class DatabaseProvider extends ChangeNotifier {
         List<Expense> nList = List.generate(
             converted.length, (index) => Expense.fromString(converted[index]));
         _expenses = nList;
+        return _expenses;
+      });
+    });
+  }
+
+  Future<List<Expense>> fetchAllExpenses() async {
+    final db = await database;
+    return await db.transaction((txn) async {
+      return await txn.query(eTable).then((data) {
+        final converted = List<Map<String, dynamic>>.from(data);
+        List<Expense> nList = List.generate(
+            converted.length, (index) => Expense.fromString(converted[index]));
+        _expenses = nList;
+        notifyListeners();
         return _expenses;
       });
     });
