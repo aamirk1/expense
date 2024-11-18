@@ -1,4 +1,6 @@
+import 'package:expense/models/database_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ExpenseSearch extends StatefulWidget {
   const ExpenseSearch({super.key});
@@ -10,13 +12,15 @@ class ExpenseSearch extends StatefulWidget {
 class _ExpenseSearchState extends State<ExpenseSearch> {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<DatabaseProvider>(context, listen: false);
     return TextField(
       onChanged: (value) {
-        
-      },
+        provider.searchText = value;
+      }, 
       decoration: InputDecoration(
-          prefixIcon: const Icon(Icons.search),
-          labelText: 'Search Expenses',),
+        prefixIcon: const Icon(Icons.search),
+        labelText: 'Search Expenses',
+      ),
     );
   }
 }
