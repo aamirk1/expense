@@ -38,7 +38,7 @@ class _CategoryFetcherState extends State<CategoryFetcher> {
             } else {
               // var list = db.categories;
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
                     const SizedBox(

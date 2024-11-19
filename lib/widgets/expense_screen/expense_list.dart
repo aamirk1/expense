@@ -13,13 +13,17 @@ class ExpenseList extends StatelessWidget {
     return Consumer<DatabaseProvider>(
       builder: (_, db, __) {
         var exList = db.expenses;
-        return ListView.builder(
-            physics: const BouncingScrollPhysics(
-                parent: AlwaysScrollableScrollPhysics()),
-            itemCount: exList.length,
-            itemBuilder: (_, i) => ExpenseCard(
-                  exp: exList[i],
-                ));
+        return exList.isNotEmpty
+            ? ListView.builder(
+                physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics()),
+                itemCount: exList.length,
+                itemBuilder: (_, i) => ExpenseCard(
+                      exp: exList[i],
+                    ))
+            : const Center(
+                child: Text('No Expenses Added'),
+              );
       },
     );
   }

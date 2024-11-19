@@ -17,8 +17,8 @@ class _ExpenseSearchState extends State<ExpenseSearch> {
       onChanged: (value) {
         provider.searchText = value;
       }, 
-      decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.search),
+      decoration: const InputDecoration(
+        prefixIcon: Icon(Icons.search),
         labelText: 'Search Expenses',
       ),
     );

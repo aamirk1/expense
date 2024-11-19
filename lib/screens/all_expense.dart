@@ -14,7 +14,7 @@ class _AllExpenseState extends State<AllExpense> {
   Widget build(BuildContext context) {
     return  Scaffold(
       appBar: AppBar(title: const Text('All Expenses'),),
-      body: AllExpenseFetcher(),
+      body: const AllExpenseFetcher(),
     );
   }
 }

@@ -17,11 +17,15 @@ class DatabaseProvider extends ChangeNotifier {
   List<ExpenseCategory> get categories => _categories;
 
   List<Expense> _expenses = [];
-  List<Expense> get expenses  {
-
-    return _searchText != '' ? _expenses.where((element) => element.title.toLowerCase().contains(_searchText.toLowerCase())).toList() : _expenses;
-
+  List<Expense> get expenses {
+    return _searchText != ''
+        ? _expenses
+            .where((element) =>
+                element.title.toLowerCase().contains(_searchText.toLowerCase()))
+            .toList()
+        : _expenses;
   }
+
   Database? _database;
   Future<Database> get database async {
     // database directory
@@ -136,6 +140,19 @@ class DatabaseProvider extends ChangeNotifier {
         // var data = calculationEntriesAndAmount(exp.category);
         updateCategory(
             exp.category, ex.entries + 1, ex.totalAmount + exp.amount);
+      });
+    });
+  }
+
+  Future<void> deleteExpense(int id, String category, double amount) async {
+    final db = await database;
+    await db.transaction((txn) async {
+      await txn.delete(eTable, where: 'id == ?', whereArgs: [id]).then((value) {
+        _expenses.removeWhere((element) => element.id == id);
+        notifyListeners();
+
+        var ex = findCategory(category);
+        updateCategory(category, ex.entries - 1, ex.totalAmount - amount);
       });
     });
   }
