@@ -16,28 +16,39 @@ class confirmBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final provider = Provider.of<DatabaseProvider>(context, listen: false);
     return AlertDialog(
-          title: Text('Delete ${exp!.title} ?'),
-          content: Row(
-            children: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop(false);
-                },
-                child: const Text('Don\'t delete'),
-              ),
-              const SizedBox(
-                width: 5.0,
-              ),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-    
-                    provider.deleteExpense(
-                        exp!.id, exp!.category, exp!.amount);
-                  },
-                  child: const Text('Delete'))
-            ],
+      title: Center(
+        child: Text(
+          'Delete ${exp!.title}?',
+          style: const TextStyle(color: Colors.black, fontSize: 14),
+        ),
+      ),
+      content: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            },
+            child: const Text(
+              'Don\'t delete',
+              style: TextStyle(color: Colors.black, fontSize: 12),
+            ),
           ),
-        );
+          const SizedBox(
+            width: 5.0,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(true);
+
+                provider.deleteExpense(exp!.id, exp!.category, exp!.amount);
+              },
+              child: const Text(
+                'Delete',
+                style: TextStyle(color: Colors.black, fontSize: 12),
+              ))
+        ],
+      ),
+    );
   }
 }

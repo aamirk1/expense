@@ -15,6 +15,7 @@ class ExpenseCard extends StatelessWidget {
       key: ValueKey(exp!.id),
       confirmDismiss: (_) async {
         showDialog(context: context, builder: (_) => confirmBox(exp: exp));
+        return null;
       },
       child: ListTile(
         // onTap: () {
