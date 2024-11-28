@@ -222,4 +222,36 @@ class DatabaseProvider extends ChangeNotifier {
     }
     return data;
   }
+
+
+
+
+
+  // get expense monthly
+  List<Map<String, dynamic>> calculateMonthExpense({int? selectedMonth, int? selectedYear}) {
+  List<Map<String, dynamic>> data = [];
+  final currentDate = DateTime.now();
+
+  // Use the current month and year if no month/year is specified
+  final month = selectedMonth ?? currentDate.month;
+  final year = selectedYear ?? currentDate.year;
+
+  // Get the number of days in the selected month
+  final daysInMonth = DateTime(year, month + 1, 0).day;
+
+  for (var i = 1; i <= daysInMonth; i++) {
+    double total = 0.0;
+    final dateOfMonth = DateTime(year, month, i);
+    for (var j = 0; j < _expenses.length; j++) {
+      if (_expenses[j].date.day == dateOfMonth.day &&
+          _expenses[j].date.month == dateOfMonth.month &&
+          _expenses[j].date.year == dateOfMonth.year) {
+        total += _expenses[j].amount;
+      }
+    }
+    data.add({'day': dateOfMonth, 'amount': total});
+  }
+  return data;
+}
+
 }
